@@ -1,7 +1,16 @@
 -module(functions).
 
 % Just export all functions instead of having to export them one-by-one
--compile(export_all).
+% -compile(export_all).
+
+-export([greet/2,
+         head/1,
+         tail/1,
+         second/1,
+         same/2,
+         not_same/2,
+         get_element/2,
+         valid_time/1]).
 
 
 greet(male, Name) ->
