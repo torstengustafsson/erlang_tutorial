@@ -4,10 +4,18 @@
          tail_fac/1,
          fibonacci/1,
          fibonacci_tail/1,
+         fib_tail/1,
          fib_list/1,
          gen_list/1,
          len/1,
-         len_tail/1]).
+         len_tail/1,
+         reverse/1,
+         tail_reverse/1,
+         sublist/2,
+         tail_sublist/2,
+         zip/2,
+         lenient_zip/2,
+         lenient_zip_tail/2]).
 
 
 % apparently, a float is an integer according to is_integer/1 ...
@@ -41,11 +49,12 @@ fibonacci(N) when is_integer(N), not is_float(N) ->
 
 % fibonacci with tail recursion (much faster for large numbers)
 fibonacci_tail(N) when is_integer(N), not is_float(N), N >= 0 ->
-  fib_tail(0, 1, N).
+  fibonacci_tail(0, 1, N).
 
 % shorter way to write the above function:
 fib_tail(A, _, 0) -> A;
 fib_tail(A, B, N) -> fib_tail(B, A+B, N-1). % we count up to N+1 but return the value for N
+fib_tail(N) when is_integer(N), not is_float(N), N >= 0 -> fib_tail(0, 1, N).
 
 
 % helper function for the fibonacci list function
@@ -86,3 +95,45 @@ len([_|T]) -> 1 + len(T).
 len_tail([], Count) -> Count;                   % helper function
 len_tail([_|T], Count) -> len_tail(T, Count+1). % helper function
 len_tail(L) when is_list(L) -> len_tail(L, 0).  % public function
+
+
+% reverse a list (lists:reverse/1 does the same, but faster (thanks to being written in C))
+reverse([]) -> [];
+reverse([H|T]) -> reverse(T)++[H].
+
+% reverse a list with tail recursion
+tail_reverse(L) -> tail_reverse(L,[]). % public function
+tail_reverse([],Acc) -> Acc;
+tail_reverse([H|T],Acc) -> tail_reverse(T, [H|Acc]).
+
+% return a subset of a list
+% e.g. sublist([1,2,3,4,5], 3) will return [1,2,3]
+sublist(_,0) -> [];
+sublist([],_) -> [];
+sublist([H|T],N) when N > 0 -> [H|sublist(T,N-1)].
+
+% tail-recursive variant
+% Note that this would return [3,2,1] if
+% we did not reverse the list in the end.
+tail_sublist(L, N) -> reverse(tail_sublist(L, N, [])). % public function
+tail_sublist(_, 0, SubList) -> SubList;
+tail_sublist([], _, SubList) -> SubList;
+tail_sublist([H|T], N, SubList) when N > 0 -> tail_sublist(T, N-1, [H|SubList]).
+
+
+% make a list of tuples based on two lists
+% e.g. zip([a,b,c],[1,2,3]) will return [{a,1},{b,2},{c,3}]
+zip([], []) -> [];
+zip([X|Xs], [Y|Ys]) -> [{X, Y} | zip(Xs, Ys)].
+
+% same as above, but it stops whenever one of the lists is done
+% e.g. [a,b,c] and [1,2] would yield [{a,1},{b,2}]
+lenient_zip([], _) -> [];
+lenient_zip(_, []) -> [];
+lenient_zip([X|Xs], [Y|Ys]) -> [{X, Y} | lenient_zip(Xs, Ys)].
+
+% same as above, but with tail recursion
+lenient_zip_tail([], _, L) -> L;
+lenient_zip_tail(_, [], L) -> L;
+lenient_zip_tail([X|Xs], [Y|Ys], L) -> lenient_zip_tail(Xs, Ys, [{X,Y} | L]).
+lenient_zip_tail(X, Y) -> reverse(lenient_zip_tail(X, Y, [])).

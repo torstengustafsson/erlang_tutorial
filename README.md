@@ -2,6 +2,10 @@
 
 http://learnyousomeerlang.com/content
 
+# Erlang quick reference card:
+
+https://github.com/stolowski/Erlang-Quick-Reference-Card/blob/master/erlang-quickref.pdf
+
 # Tips and Tricks:
 
 ## Tuple
