@@ -10,7 +10,8 @@
          same/2,
          not_same/2,
          get_element/2,
-         valid_time/1]).
+         valid_time/1,
+         temp_convert/1]).
 
 
 greet(male, Name) ->
@@ -54,3 +55,10 @@ valid_time({{Y,M,D}, {H,Min,S}}) ->
   io:format("The time is: ~p:~p:~p,~n", [H,Min,S]);
 valid_time(_) ->
   io:format("not a valid time! Write in the format valid_time({{17,11,06}, {16,25,30}})\n").
+
+temp_convert({Type, Temp}) ->
+  case Type of
+    celsius   -> {farenheit, 9/5*Temp+32};
+    farenheit -> {celsius,   5/9*(Temp-32)};
+    true -> unknown
+  end.

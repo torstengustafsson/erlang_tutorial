@@ -90,5 +90,8 @@ Save functions (and attributes - metadata about the module) to file.
 'erlang' is the standard module which is automatically imported
 
 
+## Anonymous functions
 
+MyFunction = fun(X, Y) -> X * Y end.
 
+"MyFunction(2,4)." would then return 8
