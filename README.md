@@ -9,41 +9,42 @@ https://github.com/stolowski/Erlang-Quick-Reference-Card/blob/master/erlang-quic
 # Tips and Tricks:
 
 ## Tuple
-MyTuple = {1,2,3}.
+
+    MyTuple = {1,2,3}.
 
 ## List:
 
-[1,2,3]
+    [1,2,3]
 
 
 **add lists:** (-- to remove elements)
 
-[1,2,3] ++ [4,5].
-  = [1,2,3,4,5]
+    [1,2,3] ++ [4,5].
+      = [1,2,3,4,5]
 
 
 [head | tail] where Head is first element and Tail is remaining ones.
 
 example:
 
-MyList = [head, {point, {3,2}}, {point, {4,1}}].
+    MyList = [head, {point, {3,2}}, {point, {4,1}}].
 
-[Head | Tail] = MyList.
+    [Head | Tail] = MyList.
 
-  Head = head
+Head = head
 
-  Tail = [{point, {3,2}}, {point, {4,1}}]
+Tail = [{point, {3,2}}, {point, {4,1}}]
 
 Note: Lists and tuples are implemented as linked lists!
 
 ## List Comprehensions:
 
-[Expression || GeneratorExp1, GenratorExp2, ... , Condition1, Condition2, ...]
+    [Expression || GeneratorExp1, GenratorExp2, ... , Condition1, Condition2, ...]
 
 example:
 
-[2*X || X <- [1,2,3,4], X rem 2 == 0].
-  = [4,8]
+    [2*X || X <- [1,2,3,4], X rem 2 == 0].
+      = [4,8]
 
 
 **(can work like matrix multiplication, in some cases) example:**
@@ -54,8 +55,8 @@ example:
 
 and
 
-[X*Y || X <- [2,3], Y <- [1.2]].
-  = [2, 4, 3, 6]
+    [X*Y || X <- [2,3], Y <- [1.2]].
+      = [2, 4, 3, 6]
 
 ## Binary syntax
 
@@ -69,18 +70,18 @@ Pixel = <<45, 54, 65>>
 
 Binary comprehension example:
 
-[X || <<X>> <= <<1,2,3,4,5>>, X rem 2 == 0].
-  = [2,4]
+    [X || <<X>> <= <<1,2,3,4,5>>, X rem 2 == 0].
+      = [2,4]
 
 example:
 
-Pixels = <<213,45,132,64,76,32,76,0,0,234,32,15>>.
+    Pixels = <<213,45,132,64,76,32,76,0,0,234,32,15>>.
 
-RGB = [ {R,G,B} || <<R:8,G:8,B:8>> <= Pixels ].
+    RGB = [ {R,G,B} || <<R:8,G:8,B:8>> <= Pixels ].
 
 and to do the opposite:
 
-BackToPixels = << <<R:8, G:8, B:8>> ||  {R,G,B} <- RGB >>.
+    BackToPixels = << <<R:8, G:8, B:8>> ||  {R,G,B} <- RGB >>.
 
 
 ## Modules
@@ -92,11 +93,11 @@ Save functions (and attributes - metadata about the module) to file.
 
 ## Anonymous functions
 
-MyFunction = fun(X, Y) -> X * Y end.
+    MyFunction = fun(X, Y) -> X * Y end.
 
 "MyFunction(2,4)." would then return 8
 
-# Erlang standard library functions using higher-order functions:
+## Erlang standard library functions using higher-order functions:
 
 all(Pred, List) return true if all elements match the predicate.
 
@@ -117,5 +118,36 @@ foreach(Fun, List) apply Fun(Elem) to each element in the list
 
 filter(Pred, List) reurn a list with only the elements that matches Pred
 
-# Erlang processes
+## Erlang processes
 
+built-in function spawn(Module, Function, Arguments) is used to spawn new processes.
+
+spawn/3 returns a pid (process ID)
+
+self() is used to get the pid of the current process
+
+Messages can be sent between processes using: Pid ! Message (! is called the 'bang' operator)
+
+Message can be of any valid Erlang data type
+
+Each Erlang process has a 'mailbox' in which incoming message are stored in the order they are received
+
+messages are retrieved from the mailbox using the 'receive' clause:
+
+When executing the receive statement, the oldest message in the mailbox is used.
+
+    receive
+      Pattern1 when Guard1 -> exp1;
+      Pattern2 when Guard2 -> exp2
+    end.
+
+if no clauses match, the process is suspended in the recieve statements intil a message is matched. (listen for event).
+
+To handle timeout events:
+
+    receive
+      Pattern1 when Guard1 -> exp1;
+      Pattern2 when Guard2 -> exp2
+    after
+      Timeout -> exp3
+    end.
