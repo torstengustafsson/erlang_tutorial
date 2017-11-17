@@ -95,3 +95,27 @@ Save functions (and attributes - metadata about the module) to file.
 MyFunction = fun(X, Y) -> X * Y end.
 
 "MyFunction(2,4)." would then return 8
+
+# Erlang standard library functions using higher-order functions:
+
+all(Pred, List) return true if all elements match the predicate.
+
+example:
+
+* lists:all(fun(X) -> X > 0 end, [1,2,3]). return true
+* lists:all(fun(X) -> X > 0 end, [1,2,-3]). return false
+
+any(Pred, List) return true if any element match the predicate
+
+append(List1, List2) combines List1 and List2
+
+concat(Things) concatenate the text representations of the elements of Things
+
+zip(List1, List2) makes one list of two-tuples out of List1 and List2
+
+foreach(Fun, List) apply Fun(Elem) to each element in the list
+
+filter(Pred, List) reurn a list with only the elements that matches Pred
+
+# Erlang processes
+
