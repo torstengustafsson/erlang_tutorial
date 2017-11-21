@@ -29,13 +29,15 @@ example:
 
     MyList = [head, {point, {3,2}}, {point, {4,1}}].
 
-    [Head | Tail] = MyList.
+    [Head | Tail] = MyList. % percent sign makes a comment. Assign Head to first element, and Tail the rest.
 
-Head = head
+    Head = head. % this becomes a check instead of assignment, since Head is already defined. In this case, it passes.
 
-Tail = [{point, {3,2}}, {point, {4,1}}]
+    Tail = [{point, {3,2}}, {point, {4,1}}]. % check passes!
 
 Note: Lists and tuples are implemented as linked lists!
+
+Standard list operations: http://erldocs.com/18.0/stdlib/lists.html
 
 ## List Comprehensions:
 
@@ -62,11 +64,11 @@ and
 
 Note: Binary format is much more efficient than list format since values are stored aligned in memory!
 
-Pixel = <<45, 54, 65>>
+    Pixel = <<45, 54, 65>>.
 
-<<R, G, B>> = Pixel
+    <<R, G, B>> = Pixel.
 
-<<X/integer-signed-little>> = <<-44>>. (here, X is an integer, it is signed, and it is of little-endian)
+    .<<X/integer-signed-little>> = <<-44>>. % here, X is an integer, it is signed, and it is of little-endian
 
 Binary comprehension example:
 
@@ -103,8 +105,8 @@ all(Pred, List) return true if all elements match the predicate.
 
 example:
 
-* lists:all(fun(X) -> X > 0 end, [1,2,3]). return true
-* lists:all(fun(X) -> X > 0 end, [1,2,-3]). return false
+* lists:all(fun(X) -> X > 0 end, [1,2,3]). (returns true)
+* lists:all(fun(X) -> X > 0 end, [1,2,-3]). (returns false)
 
 any(Pred, List) return true if any element match the predicate
 

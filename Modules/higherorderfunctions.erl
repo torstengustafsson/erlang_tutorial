@@ -55,6 +55,9 @@ scope(A) ->
   F().
 
 % filter a list based on a predicate function
+% ex. only keep even numbers:
+% filter(fun(X) -> X rem 2 == 0 end, [1,2,3,4,5]). = [2,4]
+%
 filter(Pred, L) -> lists:reverse(filter(Pred, L,[])).
 filter(_, [], Acc) -> Acc;
 filter(Pred, [H|T], Acc) ->
@@ -62,3 +65,31 @@ filter(Pred, [H|T], Acc) ->
     true  -> filter(Pred, T, [H|Acc]);
     false -> filter(Pred, T, Acc)
   end.
+
+% fold a list (only keep one value) based on a predicate function.
+% ex. get maximum value:
+% [H|T] = [1,6,3,7,4,2]
+% fold(fun(X, Y) when X > Y -> X; (_,Y) -> Y end, H, T). = 7
+%
+fold(_, Start, []) -> Start;
+fold(F, Start, [H|T]) -> fold(F, F(H,Start), T).
+
+
+% fold can be used to build a list as well, and can be used
+% by functions map and filter.
+% To build a list, make predicate function return a list (in the form [H|T]) on true.
+% map2/2 and filter2/2 are used exactly like map/2 and filter/2.
+reverse(L) ->
+  fold(fun(X,Acc) -> [X|Acc] end, [], L).
+
+map2(F,L) ->
+  reverse(fold(fun(X,Acc) -> [F(X)|Acc] end, [], L)).
+
+filter2(Pred, L) ->
+   F = fun(X,Acc) ->
+        case Pred(X) of
+          true  -> [X|Acc];
+          false -> Acc
+        end
+      end,
+  reverse(fold(F, [], L)).
