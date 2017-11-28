@@ -1,0 +1,3 @@
+[submodule "ext/proper"]
+	path = ext/proper
+	url = https://github.com/manopapad/proper.git
