@@ -6,6 +6,10 @@ http://learnyousomeerlang.com/content
 
 https://github.com/stolowski/Erlang-Quick-Reference-Card/blob/master/erlang-quickref.pdf
 
+# Erlang coding rules:
+
+http://www.erlang.se/doc/programming_rules.shtml
+
 # Tips and Tricks:
 
 ## Tuple

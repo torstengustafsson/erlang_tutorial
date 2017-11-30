@@ -10,6 +10,10 @@
 %% Application callbacks
 -export([start/2, stop/1]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
 %%====================================================================
 %% API
 %%====================================================================
@@ -24,3 +28,11 @@ stop(_State) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
+
+-ifdef(TEST).
+
+simple_test() ->
+    ok = application:start(myapp),
+    ?assertNot(undefined == whereis(myapp_sup)).
+
+-endif.

@@ -14,6 +14,7 @@ https://ferd.ca/rebar3-shell.html
 
 https://medium.com/erlang-central/building-your-first-erlang-app-using-rebar3-25f40b109aad
 
+https://github.com/rebar/rebar/wiki/Getting-started
 
 **How to run this test project (myapp):**
 
